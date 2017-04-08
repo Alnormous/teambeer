@@ -1,9 +1,7 @@
 package com.teambeer.starlingApi;
 
 import com.teambeer.beerApi.apiObjects.TescoApiResponseObject;
-import com.teambeer.starlingApi.objects.MerchantLocation;
-import com.teambeer.starlingApi.objects.StarlingTransaction;
-import com.teambeer.starlingApi.objects.StarlingTransactionObject;
+import com.teambeer.starlingApi.objects.*;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -24,9 +22,37 @@ public class StarlingService {
 
 	String LOCATION_API = "https://api-sandbox.starlingbank.com/api/v1/merchants/%s/locations/%s";
 	String MASTER_CARD_TRANSACTIONS_LIST = "https://api-sandbox.starlingbank.com/api/v1/transactions/mastercard";
+	String MAKE_PAYMENT_API = "https://api.starlingbank.com/api/v1/payments/local";
+	String CONTACT_API = "https://api-sandbox.starlingbank.com/api/v1/contacts";
 
 	String USER_TOKEN_HEADER = "Bearer Pzo2eMXoBPbSGuUcMFmuAPxl6V5MskFFr8Ew1zVd94m3YiWwtM8xEqhvLr26fS61";
 
+
+//	public void makeLocalPayment(String contactId) {
+//
+//	}
+
+	public List<StarlingContact> listDonatableContacts() {
+		return this.listContacts();
+	}
+
+	public List<StarlingContact> listContacts() {
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Authorization", USER_TOKEN_HEADER);
+
+		HttpEntity<String> entity = new HttpEntity<>(headers);
+
+		String formatedUrl = String.format("%s", MASTER_CARD_TRANSACTIONS_LIST);
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<StarlingContactObject> response = restTemplate.exchange(
+				formatedUrl,
+				HttpMethod.GET,
+				entity,
+				StarlingContactObject.class
+		);
+
+		return response.getBody()._embedded.contacts;
+	}
 
 	public List<StarlingTransaction> latestOutBoundTransactions() {
 		List<StarlingTransaction> starlingTransactions = listTransactions();
