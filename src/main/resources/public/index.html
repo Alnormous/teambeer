@@ -11,17 +11,173 @@
 </head>
 
 <body ng-app="stats">
-  <div class="container">
-    <div ng-controller="stats" ng-cloak class="ng-cloak">
-      	<p>
-      		<canvas id="doughnut" class="chart chart-doughnut"
-  				chart-data="data" chart-labels="labels">
-			</canvas> 
-		</p>
+	<nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+      <a class="navbar-brand" href="#">Beer Spending Analyzer</a>
+
+    </nav>
+    <div class="container-fluid">
+	    <div ng-controller="stats" ng-cloak class="ng-cloak">
+	      <div class="row">
+	        <main class="col-md-12">
+	          <h1>Dashboard</h1>
+	
+	          <section class="row text-center placeholders">
+	          	<div class="col-2 col-sm-1 placeholder"></div>
+	            <div class="col-6 col-sm-3 placeholder">
+	            	<canvas id="doughnut" class="chart chart-doughnut"
+		  				chart-data="datatotal" chart-labels="labelstotal">
+					</canvas>
+	              <h4>Label</h4>
+	              <div class="text-muted">Something else</div>
+	            </div>
+	            <div class="col-12 col-sm-6 placeholder">
+	            	<canvas id="line" class="chart chart-line" chart-data="datadays"
+						chart-labels="labelsdays" chart-series="seriesdays" chart-options="options"
+						chart-dataset-override="datasetOverride">
+					</canvas>
+	              <h4>Label</h4>
+	              <span class="text-muted">Something else</span>
+	            </div>
+	          </section>
+	
+	          <h2>Section title</h2>
+	          <div class="table-responsive">
+	            <table class="table table-striped">
+	              <thead>
+	                <tr>
+	                  <th>#</th>
+	                  <th>Header</th>
+	                  <th>Header</th>
+	                  <th>Header</th>
+	                  <th>Header</th>
+	                </tr>
+	              </thead>
+	              <tbody>
+	                <tr>
+	                  <td>1,001</td>
+	                  <td>Lorem</td>
+	                  <td>ipsum</td>
+	                  <td>dolor</td>
+	                  <td>sit</td>
+	                </tr>
+	                <tr>
+	                  <td>1,002</td>
+	                  <td>amet</td>
+	                  <td>consectetur</td>
+	                  <td>adipiscing</td>
+	                  <td>elit</td>
+	                </tr>
+	                <tr>
+	                  <td>1,003</td>
+	                  <td>Integer</td>
+	                  <td>nec</td>
+	                  <td>odio</td>
+	                  <td>Praesent</td>
+	                </tr>
+	                <tr>
+	                  <td>1,003</td>
+	                  <td>libero</td>
+	                  <td>Sed</td>
+	                  <td>cursus</td>
+	                  <td>ante</td>
+	                </tr>
+	                <tr>
+	                  <td>1,004</td>
+	                  <td>dapibus</td>
+	                  <td>diam</td>
+	                  <td>Sed</td>
+	                  <td>nisi</td>
+	                </tr>
+	                <tr>
+	                  <td>1,005</td>
+	                  <td>Nulla</td>
+	                  <td>quis</td>
+	                  <td>sem</td>
+	                  <td>at</td>
+	                </tr>
+	                <tr>
+	                  <td>1,006</td>
+	                  <td>nibh</td>
+	                  <td>elementum</td>
+	                  <td>imperdiet</td>
+	                  <td>Duis</td>
+	                </tr>
+	                <tr>
+	                  <td>1,007</td>
+	                  <td>sagittis</td>
+	                  <td>ipsum</td>
+	                  <td>Praesent</td>
+	                  <td>mauris</td>
+	                </tr>
+	                <tr>
+	                  <td>1,008</td>
+	                  <td>Fusce</td>
+	                  <td>nec</td>
+	                  <td>tellus</td>
+	                  <td>sed</td>
+	                </tr>
+	                <tr>
+	                  <td>1,009</td>
+	                  <td>augue</td>
+	                  <td>semper</td>
+	                  <td>porta</td>
+	                  <td>Mauris</td>
+	                </tr>
+	                <tr>
+	                  <td>1,010</td>
+	                  <td>massa</td>
+	                  <td>Vestibulum</td>
+	                  <td>lacinia</td>
+	                  <td>arcu</td>
+	                </tr>
+	                <tr>
+	                  <td>1,011</td>
+	                  <td>eget</td>
+	                  <td>nulla</td>
+	                  <td>Class</td>
+	                  <td>aptent</td>
+	                </tr>
+	                <tr>
+	                  <td>1,012</td>
+	                  <td>taciti</td>
+	                  <td>sociosqu</td>
+	                  <td>ad</td>
+	                  <td>litora</td>
+	                </tr>
+	                <tr>
+	                  <td>1,013</td>
+	                  <td>torquent</td>
+	                  <td>per</td>
+	                  <td>conubia</td>
+	                  <td>nostra</td>
+	                </tr>
+	                <tr>
+	                  <td>1,014</td>
+	                  <td>per</td>
+	                  <td>inceptos</td>
+	                  <td>himenaeos</td>
+	                  <td>Curabitur</td>
+	                </tr>
+	                <tr>
+	                  <td>1,015</td>
+	                  <td>sodales</td>
+	                  <td>ligula</td>
+	                  <td>in</td>
+	                  <td>libero</td>
+	                </tr>
+	              </tbody>
+	            </table>
+	          </div>
+	        </main>
+        </div>
+      </div>
     </div>
+  <div class="container">
+  	
   </div>
   <script src="bower_components/angular/angular.js" type="text/javascript"></script>
   <script src="app/statscontroller.js"></script>
+  <script src="bower_components/underscore/underscore-min.js"></script>
   <script src="bower_components/chart.js/dist/Chart.min.js"></script>
   <script src="bower_components/angular-chart.js/dist/angular-chart.min.js"></script>
 </body>

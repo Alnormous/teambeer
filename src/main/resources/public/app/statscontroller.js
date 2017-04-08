@@ -3,13 +3,21 @@ angular.module('stats', ["chart.js"])
 	  
 	  $scope.userId = 1;
 	  $scope.totals = {};
-	  $scope.data = [];
-	  $scope.labels = [];
-	  $http.get("/query/beerstats/1/day/1", {})
+	  $http.get("/query/beerstats/total/1", {})
 	  	.then(function(success) {
 	  		$scope.totals = success.data;
-	  		$scope.data = [success.data.beerMoney, success.data.totalMoney - success.data.beerMoney];
-	  		$scope.labels = ["beer", "not beer"];
+	  		$scope.datatotal = [success.data.beerMoney, success.data.totalMoney - success.data.beerMoney];
+	  		$scope.labelstotal = ["beer", "not beer"];
+	  	}, function(fail) {
+	  		console.log("fuck");
+	  	});
+	  $http.get("/query/beerstats/1", {})
+	  	.then(function(success) {
+	  		$scope.all = success.data;
+	  		$scope.labelsdays = ["Friday", "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+	  		$scope.seriesdays = ['Beer Costs', 'Total Costs'];
+	  		$scope.datadays = [_.chain(success.data).map(function(bs) { return bs.beerMoney; }).reverse().value(),
+	  			_.chain(success.data).map(function(bs) { return bs.totalMoney; }).reverse().value()];
 	  	}, function(fail) {
 	  		console.log("fuck");
 	  	});

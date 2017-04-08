@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import com.teambeer.query.BeerStats;
 
 @Component
-public class HashMapBeerRespositoryImpl implements BeerRepository {
+public class BeerRespositoryImpl implements BeerRepository {
 	
 	@Autowired
 	ExpensesRepository expensesRepository;
@@ -19,10 +19,12 @@ public class HashMapBeerRespositoryImpl implements BeerRepository {
 
 	@Override
 	public BeerStats getBeerStats(int userId, LocalDate day) {
-		return expensesRepository.getAll().stream()
+		BeerStats bs = expensesRepository.getAll().stream()
 			.filter(exp -> exp.timeOfTransaction.truncatedTo(ChronoUnit.DAYS).toLocalDate().isEqual(day))
 			.map(exp -> new BeerStats(exp))
 			.reduce(BeerStats.emptyStats(userId), (bs1, bs2) -> bs1.merge(bs2));
+		bs.setDay(day);
+		return bs;
 	}
 	
 	@Override
@@ -31,7 +33,7 @@ public class HashMapBeerRespositoryImpl implements BeerRepository {
 		LocalDate day = LocalDate.now();
 		for (int i = 0; i < 10; i++) {
 			stats.add(getBeerStats(userId, day));
-			day.minusDays(1);
+			day = day.minusDays(1);
 		}
 		return stats;
 	}
