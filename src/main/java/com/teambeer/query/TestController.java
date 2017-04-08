@@ -10,12 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-/**
- * Created by artyom.fedenka on 4/8/17.
- * ONWARDS!!!!
- */
 @RestController
 public class TestController {
 
@@ -25,5 +24,12 @@ public class TestController {
 	@RequestMapping("/starling")
 	public Expense starling(@RequestParam("name") String name) {
 		return marcherService.analyzeBeer(name);
+	}
+	
+	@RequestMapping("/starling/{name}/date/{date}/location/{location}")
+	public Expense starling(@RequestParam("name") String name, @RequestParam("date") String date, @RequestParam("location") String location) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+		LocalDateTime localDate = LocalDateTime.parse(date, formatter);
+		return marcherService.analyzeBeer(name, localDate, location);
 	}
 }
