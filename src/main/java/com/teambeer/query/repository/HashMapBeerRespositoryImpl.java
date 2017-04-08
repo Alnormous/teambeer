@@ -21,7 +21,7 @@ public class HashMapBeerRespositoryImpl implements BeerRepository {
 	public BeerStats getBeerStats(int userId, LocalDate day) {
 		return expensesRepository.getAll().stream()
 			.filter(exp -> exp.timeOfTransaction.truncatedTo(ChronoUnit.DAYS).toLocalDate().isEqual(day))
-			.map(BeerStats::new)
+			.map(exp -> new BeerStats(exp))
 			.reduce(BeerStats.emptyStats(userId), (bs1, bs2) -> bs1.merge(bs2));
 	}
 	
