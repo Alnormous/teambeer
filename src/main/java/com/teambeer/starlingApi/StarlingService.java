@@ -29,7 +29,7 @@ public class StarlingService {
 	String MAKE_PAYMENT_API = "https://api-sandbox.starlingbank.com/api/v1/payments/local";
 	String CONTACT_API = "https://api-sandbox.starlingbank.com/api/v1/contacts";
 	String CONTACT_ACCOUNT_API = "https://api-sandbox.starlingbank.com/api/v1/contacts/%s/accounts";
-	String USER_TOKEN_HEADER = "Bearer Pzo2eMXoBPbSGuUcMFmuAPxl6V5MskFFr8Ew1zVd94m3YiWwtM8xEqhvLr26fS61";
+	String USER_TOKEN_HEADER = "Bearer L5iNcZdJ7tGzRBPqFjxnjAt4PP8eUnlDqMklDvW4o19jjy3N40dZyEbFRxafoWwe";
 
 	public void makeLocalPayment(String contactId, double amount) {
 		StarlingAccount stralingAccount = getContactsAccount(contactId);

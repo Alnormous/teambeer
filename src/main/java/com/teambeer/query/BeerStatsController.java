@@ -29,18 +29,18 @@ public class BeerStatsController {
 	@Autowired
 	private CostsRepository costsRepo;
 	
-	@PostConstruct
-	public void fillRepo() {
-		expenseRepo.storeExpense(new Expense(1.00, 10.00, LocalDateTime.now(), "Punk IPA", "Pub 1", "23rewf"));
-		expenseRepo.storeExpense(new Expense(5.00, 11.20, LocalDateTime.now(), "Punk IPA", "Pub 2", "wiaeudgfvhb"));
-		expenseRepo.storeExpense(new Expense(3.00, 22.00, LocalDateTime.now(), "Dead Pony Club", "Pub 1", "23rewf"));
-		expenseRepo.storeExpense(new Expense(2.00, 10.00, LocalDateTime.now().minusDays(1), "Dead Pony Club", "Pub 1", "23rewf"));
-		expenseRepo.storeExpense(new Expense(5.00, 22.00, LocalDateTime.now().minusDays(1), "Crownie", "Pub 2", "wiaeudgfvhb"));
-		expenseRepo.storeExpense(new Expense(0.00, 10.00, LocalDateTime.now().minusDays(1), "Kozsci", "Pub 1", "23rewf"));
-		expenseRepo.storeExpense(new Expense(7.20, 10.00, LocalDateTime.now().minusDays(3), "New", "Pub 2", "wiaeudgfvhb"));
-		expenseRepo.storeExpense(new Expense(10.00, 10.00, LocalDateTime.now().minusDays(3), "Old", "Pub 2", "wiaeudgfvhb"));
-		expenseRepo.storeExpense(new Expense(0.00, 20.00, LocalDateTime.now().minusDays(3), "Kozsci", "Pub 1", "23rewf"));
-	}
+//	@PostConstruct
+//	public void fillRepo() {
+//		expenseRepo.storeExpense(new Expense(1.00, 10.00, LocalDateTime.now(), "Punk IPA", "Pub 1", "23rewf"));
+//		expenseRepo.storeExpense(new Expense(5.00, 11.20, LocalDateTime.now(), "Punk IPA", "Pub 2", "wiaeudgfvhb"));
+//		expenseRepo.storeExpense(new Expense(3.00, 22.00, LocalDateTime.now(), "Dead Pony Club", "Pub 1", "23rewf"));
+//		expenseRepo.storeExpense(new Expense(2.00, 10.00, LocalDateTime.now().minusDays(1), "Dead Pony Club", "Pub 1", "23rewf"));
+//		expenseRepo.storeExpense(new Expense(5.00, 22.00, LocalDateTime.now().minusDays(1), "Crownie", "Pub 2", "wiaeudgfvhb"));
+//		expenseRepo.storeExpense(new Expense(0.00, 10.00, LocalDateTime.now().minusDays(1), "Kozsci", "Pub 1", "23rewf"));
+//		expenseRepo.storeExpense(new Expense(7.20, 10.00, LocalDateTime.now().minusDays(3), "New", "Pub 2", "wiaeudgfvhb"));
+//		expenseRepo.storeExpense(new Expense(10.00, 10.00, LocalDateTime.now().minusDays(3), "Old", "Pub 2", "wiaeudgfvhb"));
+//		expenseRepo.storeExpense(new Expense(0.00, 20.00, LocalDateTime.now().minusDays(3), "Kozsci", "Pub 1", "23rewf"));
+//	}
 	
 	@RequestMapping("/query/beerstats/{id}")
 	public List<BeerStats> getBeerStats(@PathVariable("id") int userId) {

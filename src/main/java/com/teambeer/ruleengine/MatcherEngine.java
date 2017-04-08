@@ -1,7 +1,5 @@
 package com.teambeer.ruleengine;
 
-import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
@@ -12,6 +10,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.spi.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,8 +38,11 @@ public class MatcherEngine {
 	
 	@Autowired
 	ExpensesRepository expenseRepo;
+	
+	private Logger logger = org.slf4j.LoggerFactory.getLogger(MatcherEngine.class);
 
 	public Expense analyzeBeer(String beerName) {
+		logger.debug("Beer recieved: " + beerName);
 		double price = beerPriceApi.findBeerPrice(beerName);
 		List<StarlingTransaction> transactionsList = starlingApi.latestOutBoundTransactions();
 		List<MerchantLocation> merchantLocations = new ArrayList<>();
@@ -62,6 +65,7 @@ public class MatcherEngine {
 	}
 	
 	public Expense analyzeBeer(String beerName, LocalDateTime when, String location) {
+		logger.info("Beer recieved: " + beerName + " at a time");
 		double price = beerPriceApi.findBeerPrice(beerName);
 		final double tescoPrice = price;
 		List<StarlingTransaction> transactionsList = starlingApi.latestOutBoundTransactions();
@@ -87,6 +91,7 @@ public class MatcherEngine {
 				}
 			});
 		} else {
+			logger.debug("Timing stuff");
 			Long epochSecond = when.toInstant(ZoneOffset.UTC).getEpochSecond();
 			transactions.sort(new Comparator<StarlingTransaction>() {
 				@Override
@@ -98,10 +103,8 @@ public class MatcherEngine {
 			});
 		}
 		
-
-		StarlingTransaction transactionsOut = transactions.get(0);
-		if (transactionsOut != null) {
-			
+		if (transactions.size() > 0) {
+			logger.debug("Beer " + beerName + " has possible transactions " + transactions.get(0).id);
 	
 			Iterator<StarlingTransaction> iterator = transactions.iterator();
 			while (iterator.hasNext()) {
@@ -114,20 +117,27 @@ public class MatcherEngine {
 					if (Math.abs(remainder - price) < (price * 0.2)) {
 						price = remainder;
 					}
-					return new Expense(price, Math.abs(transactionsOut.amount), 
-							transactionsOut.created, beerName, 
-							transactionsOut.merchantLocation.locationName,
-							transactionsOut.merchantLocationId,
-							transactionsOut.id);
+					Expense e = new Expense(price, Math.abs(t.amount), 
+							t.created, beerName, 
+							t.merchantLocation.locationName,
+							t.merchantLocationId,
+							t.id);
+					expenseRepo.storeExpense(e);
+					logger.debug("We fucking used this expense like a mother fucker");
+					return e;
+				} else {
+					logger.debug("We fucked this one right off");
 				}
 			}
 		}
 			
-		return new Expense(0.00, 0.00, 
-				transactionsOut.created, beerName, 
-				transactionsOut.merchantLocation.locationName,
-				transactionsOut.merchantLocationId,
+		Expense e = new Expense(0.00, 0.00, 
+				null, beerName, 
+				null,
+				null,
 				null);
+		expenseRepo.storeExpense(e);
+		return e;
 	}
 
 }
