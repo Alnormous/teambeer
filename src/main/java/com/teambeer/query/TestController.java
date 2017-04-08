@@ -20,10 +20,11 @@ import java.util.List;
 public class TestController {
 
 	@Autowired
-	MatcherEngine marcherService;
+	StarlingService starlingService;
 
-	@RequestMapping("/starling")
-	public Expense starling(@RequestParam("name") String name) {
-		return marcherService.analyzeBeer(name);
+
+	@RequestMapping("/pay")
+	public void pay() {
+		starlingService.makeLocalPayment("f2654368-7799-44e4-8b39-636da8fcb48e", 2.0);
 	}
 }
