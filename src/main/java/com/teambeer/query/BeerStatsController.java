@@ -2,6 +2,7 @@ package com.teambeer.query;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.teambeer.query.repository.*;
+import com.teambeer.ruleengine.Expense;
 
 @RestController
 public class BeerStatsController {
@@ -18,22 +20,20 @@ public class BeerStatsController {
 	@Autowired
 	private BeerRepository beerRepo;
 	
+	@Autowired
+	private ExpensesRepository expenseRepo;
+	
 	@PostConstruct
 	public void fillRepo() {
-		// Get rid of this once we have data.
-		BeerStats bs = new BeerStats();
-		bs.setBeerMoney(new BigDecimal(1.00));
-		bs.setTotalMoney(new BigDecimal(2.00));
-		bs.setDay(LocalDate.now());
-		bs.setUserId(1);
-		beerRepo.addBeerStats(bs, 1);
-		
-		BeerStats bs2 = new BeerStats();
-		bs2.setBeerMoney(new BigDecimal(1.10));
-		bs2.setTotalMoney(new BigDecimal(3.00));
-		bs2.setDay(LocalDate.now().minusDays(1));
-		bs2.setUserId(1);
-		beerRepo.addBeerStats(bs2, 1);
+		expenseRepo.storeExpense(new Expense(1.00, 10.00, LocalDateTime.now()));
+		expenseRepo.storeExpense(new Expense(5.00, 11.20, LocalDateTime.now()));
+		expenseRepo.storeExpense(new Expense(3.00, 22.00, LocalDateTime.now()));
+		expenseRepo.storeExpense(new Expense(2.00, 10.00, LocalDateTime.now().minusDays(1)));
+		expenseRepo.storeExpense(new Expense(5.00, 22.00, LocalDateTime.now().minusDays(1)));
+		expenseRepo.storeExpense(new Expense(0.00, 10.00, LocalDateTime.now().minusDays(1)));
+		expenseRepo.storeExpense(new Expense(7.00, 10.00, LocalDateTime.now().minusDays(3)));
+		expenseRepo.storeExpense(new Expense(10.00, 10.00, LocalDateTime.now().minusDays(3)));
+		expenseRepo.storeExpense(new Expense(0.00, 20.00, LocalDateTime.now().minusDays(3)));
 	}
 	
 	@RequestMapping("/query/beerstats/{id}")

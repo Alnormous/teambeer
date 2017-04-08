@@ -11,6 +11,4 @@ public interface BeerRepository {
 	
 	BeerStats getBeerStats(int userId, LocalDate day);
 	
-	void addBeerStats(BeerStats beerStats, int userId);
-	
 }

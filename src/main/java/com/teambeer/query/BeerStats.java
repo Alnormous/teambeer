@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.teambeer.ruleengine.Expense;
 
 public class BeerStats {
 	
@@ -15,6 +16,21 @@ public class BeerStats {
 	private BigDecimal beerMoney;
 	
 	private BigDecimal totalMoney;
+	
+	public BeerStats() {
+		
+	}
+	
+	public BeerStats(double beerMoney, double totalMoney) {
+		this.beerMoney = new BigDecimal(beerMoney);
+		this.totalMoney = new BigDecimal(totalMoney);
+	}
+	
+	public BeerStats(Expense exp) {
+		this.beerMoney = new BigDecimal(exp.spentOnBeer);
+		this.totalMoney = new BigDecimal(exp.totalBill);
+		this.day = exp.timeOfTransaction.toLocalDate();
+	}
 	
 	public static BeerStats emptyStats(int userId) {
 		BeerStats bs = new BeerStats();

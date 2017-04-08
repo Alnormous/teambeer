@@ -1,14 +1,15 @@
 package com.teambeer.query.repository;
 
-import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.core.IMap;
-import com.teambeer.ruleengine.Expense;
+import java.util.Collection;
+
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.util.Collection;
-import java.util.List;
+import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.core.IMap;
+import com.teambeer.ruleengine.Expense;
 
 /**
  * Created by artyom.fedenka on 4/8/17.

@@ -1,5 +1,6 @@
 package com.teambeer.ruleengine;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -7,7 +8,7 @@ import java.util.UUID;
  * Created by artyom.fedenka on 4/8/17.
  * ONWARDS!!!!
  */
-public class Expense {
+public class Expense implements Serializable {
 
 	public double spentOnBeer;
 	public double totalBill;
