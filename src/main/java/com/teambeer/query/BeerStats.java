@@ -2,6 +2,9 @@ package com.teambeer.query;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+
 public class BeerStats {
 	
 	private int userId;
@@ -20,6 +23,7 @@ public class BeerStats {
 		this.userId = userId;
 	}
 	
+	@JsonDeserialize(using = LocalDateDeserializer.class)
 	public LocalDate getDay() {
 		return day;
 	}

@@ -2,6 +2,7 @@ package com.teambeer.query;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 
@@ -19,6 +20,7 @@ public class BeerStatsController {
 	
 	@PostConstruct
 	public void fillRepo() {
+		// Get rid of this once we have data.
 		BeerStats bs = new BeerStats();
 		bs.setBeerMoney(1.00);
 		bs.setTotalMoney(2.00);
@@ -42,7 +44,15 @@ public class BeerStatsController {
 	@RequestMapping("/query/beerstats/{id}/day/{day}")
 	public BeerStats getBeerStats(@PathVariable("id") int userId, @PathVariable("day") int daysAgo) {
 		LocalDate dayToQuery = LocalDate.now().minusDays(daysAgo);
-		return beerRepo.getBeerStats(userId, dayToQuery);
+		BeerStats bs = beerRepo.getBeerStats(userId, dayToQuery);
+		if (bs == null) {
+			bs = new BeerStats();
+			bs.setDay(dayToQuery);
+			bs.setBeerMoney(0);
+			bs.setTotalMoney(0);
+			bs.setUserId(userId);
+		}
+		return bs;
 	}
 
 }
