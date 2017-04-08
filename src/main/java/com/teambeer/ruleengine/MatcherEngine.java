@@ -44,7 +44,10 @@ public class MatcherEngine {
 		}).findFirst();
 
 		StarlingTransaction transactionsOut = transactionsOutOptional.get();
-		return new Expense(price, Math.abs(transactionsOut.amount), transactionsOut.created, beerName, transactionsOut.merchantLocation.locationName);
+		return new Expense(price, Math.abs(transactionsOut.amount), 
+				transactionsOut.created, beerName, 
+				transactionsOut.merchantLocation.locationName,
+				transactionsOut.merchantLocationId);
 	}
 
 }

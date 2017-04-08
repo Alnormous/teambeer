@@ -11,10 +11,6 @@ import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IMap;
 import com.teambeer.ruleengine.Expense;
 
-/**
- * Created by artyom.fedenka on 4/8/17.
- * ONWARDS!!!!
- */
 @Service
 public class ExpensesRepository {
 
@@ -44,6 +40,10 @@ public class ExpensesRepository {
 
 	public void removeById(String id) {
 		expenses.remove(id);
+	}
+	
+	public void updateExpense(Expense expense) {
+		expenses.replace(expense.id, expense);
 	}
 
 
