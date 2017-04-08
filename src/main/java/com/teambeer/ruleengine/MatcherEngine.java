@@ -32,7 +32,9 @@ public class MatcherEngine {
 		Comparator<TransactionsOut> byTransactionDate = (e1, e2) ->
 				e1.getTransactiontime().compareTo(e2.getTransactiontime());
 
-		transactionsList.stream().sorted(byTransactionDate).findFirst();
+//		transactionsList.stream().sorted(byTransactionDate).filter((t) -> {
+//			t.getMerchantcode() ==
+//		}).findFirst();
 		return null;
 
 	}
