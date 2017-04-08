@@ -1,8 +1,12 @@
 package com.teambeer.query;
 
+import java.time.LocalDate;
+
 public class BeerStats {
 	
 	private int userId;
+	
+	private LocalDate day;
 	
 	private double beerMoney;
 	
@@ -14,6 +18,14 @@ public class BeerStats {
 
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+	
+	public LocalDate getDay() {
+		return day;
+	}
+
+	public void setDay(LocalDate day) {
+		this.day = day;
 	}
 
 	public double getBeerMoney() {
