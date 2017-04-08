@@ -5,8 +5,8 @@ package com.teambeer.beerApi.apiObjects;
  * ONWARDS!!!!
  */
 public class GHS {
-	ProductsObject products;
-	String suggestions;
-	String totals;
+	public ProductsObject products;
+	public String suggestions;
+	public String totals;
 
 }

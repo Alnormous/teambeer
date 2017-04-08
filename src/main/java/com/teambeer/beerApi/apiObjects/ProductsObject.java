@@ -7,5 +7,5 @@ import java.util.List;
  * ONWARDS!!!!
  */
 public class ProductsObject {
-	List<TescoBeer> results;
+	public List<TescoBeer> results;
 }

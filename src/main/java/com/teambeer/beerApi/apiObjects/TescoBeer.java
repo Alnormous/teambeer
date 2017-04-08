@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 public class TescoBeer {
 	public String image;
 	public String tpnb;
-	public BigDecimal price;
+	public Double price;
 	public String PromotionDescription;
 	public String ContentsMeasureType;
 	public String name;
