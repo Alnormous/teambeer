@@ -7,13 +7,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.hazelcast.core.HazelcastInstance;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.teambeer.query.BeerStats;
 
 @Component
 public class HashMapBeerRespositoryImpl implements BeerRepository {
-	
+
+
 	private Map<Integer, List<BeerStats>> stats = new HashMap<>();
 
 	@Override
