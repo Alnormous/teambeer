@@ -13,6 +13,7 @@ public class Expense implements Serializable {
 	public String location;
 	public String mastercardLocationId;
 	public String id;
+	public String transactionId;
 
 	public Expense(double spentOnBeer, double totalBill, LocalDateTime timeOfTransaction, String description, String location, String locationId) {
 		this.spentOnBeer = spentOnBeer;
@@ -22,6 +23,17 @@ public class Expense implements Serializable {
 		this.location = location;
 		this.mastercardLocationId = locationId;
 		this.description = description;
+	}
+	
+	public Expense(double spentOnBeer, double totalBill, LocalDateTime timeOfTransaction, String description, String location, String locationId, String transactionId) {
+		this.spentOnBeer = spentOnBeer;
+		this.totalBill = totalBill;
+		this.timeOfTransaction = timeOfTransaction;
+		this.id = UUID.randomUUID().toString();
+		this.location = location;
+		this.mastercardLocationId = locationId;
+		this.description = description;
+		this.transactionId = transactionId;
 	}
 
 
