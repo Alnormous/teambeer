@@ -24,7 +24,20 @@ angular.module('stats', ["chart.js"])
  	  $http.get("/query/expenses/1", {})
 	  	.then(function(success) {
 	  		$scope.expenses = success.data;
+	  		_.each($scope.expenses, function(e) {
+	  			if (e.timeOfTransaction.length > 4)
+	  			e.time = new Date(e.timeOfTransaction[0], e.timeOfTransaction[1], e.timeOfTransaction[2], e.timeOfTransaction[3], e.timeOfTransaction[4]);
+	  		});
+	  		$scope.expenses = _.sortBy($scope.expenses, 'time'); 
 	  	}, function(fail) {
 	  		console.log("Oops");
 	  	});
+ 	  
+ 	  
+ 	  $scope.updateAmount = function(index) {
+ 		  console.log(index);
+ 		  var e = $scope.expenses[index];
+ 		  console.log(e);
+ 		  $http.post("/query/expense/" + e.id + "/cost/" + e.spentOnBeer, {});
+ 	  };
 });

@@ -70,15 +70,15 @@ public class MatcherEngine {
 					return ACCEPTED_CODES.contains(t.merchantLocation.mastercardMerchantCategoryCode) && Math.abs(t.amount) > price;
 				}).filter(t -> (t.created.plusHours(5).isAfter(when) && t.created.minusHours(5).isBefore(when)))
 				.collect(Collectors.toList());
-		
-		transactions.sort(new Comparator<StarlingTransaction>() {
-			@Override
-			public int compare(StarlingTransaction o1, StarlingTransaction o2) {
-				return ((Integer)StringUtils.getLevenshteinDistance(o2.merchantLocation.locationName, location))
-						.compareTo(StringUtils.getLevenshteinDistance(o1.merchantLocation.locationName, location));
-			}
-		});
-				
+		if (location != null) {
+			transactions.sort(new Comparator<StarlingTransaction>() {
+				@Override
+				public int compare(StarlingTransaction o1, StarlingTransaction o2) {
+					return ((Integer)StringUtils.getLevenshteinDistance(o2.merchantLocation.locationName, location))
+							.compareTo(StringUtils.getLevenshteinDistance(o1.merchantLocation.locationName, location));
+				}
+			});
+		}
 
 		StarlingTransaction transactionsOut = transactions.get(0);
 		if (transactionsOut == null) {

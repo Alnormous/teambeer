@@ -36,8 +36,8 @@ public class BeerStatsController {
 		expenseRepo.storeExpense(new Expense(3.00, 22.00, LocalDateTime.now(), "Dead Pony Club", "Pub 1", "23rewf"));
 		expenseRepo.storeExpense(new Expense(2.00, 10.00, LocalDateTime.now().minusDays(1), "Dead Pony Club", "Pub 1", "23rewf"));
 		expenseRepo.storeExpense(new Expense(5.00, 22.00, LocalDateTime.now().minusDays(1), "Crownie", "Pub 2", "wiaeudgfvhb"));
-		expenseRepo.storeExpense(new Expense(0.00, 10.00, LocalDateTime.now().minusDays(1), "Jozsci", "Pub 1", "23rewf"));
-		expenseRepo.storeExpense(new Expense(7.00, 10.00, LocalDateTime.now().minusDays(3), "New", "Pub 2", "wiaeudgfvhb"));
+		expenseRepo.storeExpense(new Expense(0.00, 10.00, LocalDateTime.now().minusDays(1), "Kozsci", "Pub 1", "23rewf"));
+		expenseRepo.storeExpense(new Expense(7.20, 10.00, LocalDateTime.now().minusDays(3), "New", "Pub 2", "wiaeudgfvhb"));
 		expenseRepo.storeExpense(new Expense(10.00, 10.00, LocalDateTime.now().minusDays(3), "Old", "Pub 2", "wiaeudgfvhb"));
 		expenseRepo.storeExpense(new Expense(0.00, 20.00, LocalDateTime.now().minusDays(3), "Kozsci", "Pub 1", "23rewf"));
 	}
@@ -69,7 +69,7 @@ public class BeerStatsController {
 	}
 	
 	@RequestMapping(value="/query/expense/{id}/cost/{cost}", method=RequestMethod.POST)
-	public void setExpense(@PathVariable("id") String id, @PathVariable("id") double cost) {
+	public void setExpense(@PathVariable("id") String id, @PathVariable("cost") double cost) {
 		Expense e = expenseRepo.getByIdExpense(id);
 		if (e != null) {
 			e.spentOnBeer = cost;
