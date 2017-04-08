@@ -1,5 +1,6 @@
 package com.teambeer.query;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -11,9 +12,23 @@ public class BeerStats {
 	
 	private LocalDate day;
 	
-	private double beerMoney;
+	private BigDecimal beerMoney;
 	
-	private double totalMoney;
+	private BigDecimal totalMoney;
+	
+	public static BeerStats emptyStats(int userId) {
+		BeerStats bs = new BeerStats();
+		bs.setBeerMoney(new BigDecimal(0));
+		bs.setTotalMoney(new BigDecimal(0));
+		bs.setUserId(userId);
+		return bs;
+	}
+	
+	public BeerStats merge(BeerStats bs2) {
+		this.beerMoney.add(bs2.beerMoney);
+		this.totalMoney.add(bs2.totalMoney);
+		return this;
+	}
 
 	public int getUserId() {
 		return userId;
@@ -32,19 +47,19 @@ public class BeerStats {
 		this.day = day;
 	}
 
-	public double getBeerMoney() {
+	public BigDecimal getBeerMoney() {
 		return beerMoney;
 	}
 
-	public void setBeerMoney(double beerMoney) {
+	public void setBeerMoney(BigDecimal beerMoney) {
 		this.beerMoney = beerMoney;
 	}
 
-	public double getTotalMoney() {
+	public BigDecimal getTotalMoney() {
 		return totalMoney;
 	}
 
-	public void setTotalMoney(double totalMoney) {
+	public void setTotalMoney(BigDecimal totalMoney) {
 		this.totalMoney = totalMoney;
 	}
 	
