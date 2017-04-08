@@ -1,6 +1,7 @@
 package com.teambeer.beerApi.apiObjects;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 /**
  * Created by artyom.fedenka on 4/8/17.
@@ -15,7 +16,7 @@ public class TescoBeer {
 	public String name;
 	public String UnitOfSale;
 	public String AverageSellingUnitWeight;
-	public String description;
+	public ArrayList<String> description;
 	public String UnitQuantity;
 	public String ContentsQuantity;
 	public String unitprice;

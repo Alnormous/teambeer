@@ -3,6 +3,8 @@ package com.teambeer.ruleengine;
 import com.teambeer.beerApi.BeerPriceApi;
 import com.teambeer.starlingApi.StarlingService;
 import com.teambeer.starlingApi.TransactionsOut;
+import com.teambeer.starlingApi.objects.MerchantLocation;
+import com.teambeer.starlingApi.objects.StarlingTransaction;
 import com.teambeer.untappd.Untappd;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,9 +23,9 @@ import java.util.Optional;
 @Service
 public class MatcherEngine {
 
-	List<String> ACCEPTED_CODES = new ArrayList<String>() {{
-		add("5812");
-		add("5813");
+	List<Integer> ACCEPTED_CODES = new ArrayList<Integer>() {{
+		add(5812);
+		add(5813);
 	}};
 
 	@Autowired
@@ -34,20 +36,21 @@ public class MatcherEngine {
 
 	public Expense analyzeBeer(String beerName) {
 		double price = beerPriceApi.findBeerPrice(beerName);
-		List<TransactionsOut> transactionsList = starlingApi.latestTransactions();
+		List<StarlingTransaction> transactionsList = starlingApi.latestOutBoundTransactions();
+		List<MerchantLocation> merchantLocations = new ArrayList<>();
+		transactionsList.forEach((t) -> {
+			t.merchantLocation = starlingApi.merchantLocation(t.merchantId, t.merchantLocationId);
+		});
 
-		Comparator<TransactionsOut> byTransactionDate = (e1, e2) ->
-				e1.getTransactiontime().compareTo(e2.getTransactiontime());
+		Comparator<StarlingTransaction> byTransactionDate = (e1, e2) ->
+				e1.created.compareTo(e2.created);
 
-		Optional<TransactionsOut> transactionsOutOptional = transactionsList.stream().sorted(byTransactionDate).filter((t) -> {
-			return ACCEPTED_CODES.contains(t.getMerchantcode());
+		Optional<StarlingTransaction> transactionsOutOptional = transactionsList.stream().sorted(byTransactionDate).filter((t) -> {
+			return ACCEPTED_CODES.contains(t.merchantLocation.mastercardMerchantCategoryCode) && Math.abs(t.amount) > price;
 		}).findFirst();
 
-		TransactionsOut transactionsOut = transactionsOutOptional.get();
-		Expense expense = new Expense(price, transactionsOut.getTransactionamount(), transactionsOut.getTransactiontime());
-
-		return expense;
-
+		StarlingTransaction transactionsOut = transactionsOutOptional.get();
+		return new Expense(price, Math.abs(transactionsOut.amount), transactionsOut.created);
 	}
 
 }

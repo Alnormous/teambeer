@@ -38,7 +38,7 @@ public class BeerPriceApi {
 
 		HttpEntity<String> entity = new HttpEntity<>(headers);
 
-		String formatedUrl = String.format("{0}?query={1}&limit=50&offset=0", url, query);
+		String formatedUrl = String.format("%s?query=%s&limit=50&offset=0", url, query);
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<TescoApiResponseObject> response = restTemplate.exchange(
 				formatedUrl,
