@@ -1,8 +1,8 @@
 package com.teambeer.untappd;
 
-import java.util.Set;
+import java.util.List;
 
-import com.teambeer.untappd.model.Checkin;
+import com.teambeer.untappd.model.Item;
 
 /**
  * API to interface with Untappd.
@@ -19,5 +19,5 @@ public interface Untappd {
 	 *            Untappd userid
 	 * @return Set of Checkins
 	 */
-	Set<Checkin> getCheckinsByUser(final String user);
+	List<Item> getCheckinsByUser(final String user) throws UserNotFoundException;
 }

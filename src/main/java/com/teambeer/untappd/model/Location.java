@@ -1,73 +1,72 @@
 package com.teambeer.untappd.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Location {
 	
-	private String address;
+	@JsonProperty("venue_address")
+	private String venueAddress;
 	
-	private String city;
+	@JsonProperty("venue_city")
+	private String venueCity;
 	
-	private String state;
+	@JsonProperty("venue_state")
+	private String venueState;
 	
-	private String country;
+	@JsonProperty("venue_country")
+	private String venueCountry;
+
+	private Double lat;
 	
-	private float latitude;
-	
-	private float longitude;
-	
-	public Location(String address, String city, String state, String country, float latitude, float longitude) {
-		this.setAddress(address);
-		this.setCity(city);
-		this.setState(state);
-		this.setCountry(country);
-		this.setLatitude(latitude);
-		this.setLongitude(longitude);
+	private Double lng;
+
+	public String getVenueAddress() {
+		return venueAddress;
 	}
 
-	public String getAddress() {
-		return address;
+	public void setVenueAddress(String venueAddress) {
+		this.venueAddress = venueAddress;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public String getVenueCity() {
+		return venueCity;
 	}
 
-	public String getCity() {
-		return city;
+	public void setVenueCity(String venueCity) {
+		this.venueCity = venueCity;
 	}
 
-	public void setCity(String city) {
-		this.city = city;
+	public String getVenueState() {
+		return venueState;
 	}
 
-	public String getState() {
-		return state;
+	public void setVenueState(String venueState) {
+		this.venueState = venueState;
 	}
 
-	public void setState(String state) {
-		this.state = state;
+	public String getVenueCountry() {
+		return venueCountry;
 	}
 
-	public String getCountry() {
-		return country;
+	public void setVenueCountry(String venueCountry) {
+		this.venueCountry = venueCountry;
 	}
 
-	public void setCountry(String country) {
-		this.country = country;
+	public Double getLat() {
+		return lat;
 	}
 
-	public float getLatitude() {
-		return latitude;
+	public void setLat(Double lat) {
+		this.lat = lat;
 	}
 
-	public void setLatitude(float latitude) {
-		this.latitude = latitude;
+	public Double getLng() {
+		return lng;
 	}
 
-	public float getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(float longitude) {
-		this.longitude = longitude;
+	public void setLng(Double lng) {
+		this.lng = lng;
 	}
 }
