@@ -21,6 +21,7 @@ public class Expense implements Serializable {
 		this.id = UUID.randomUUID().toString();
 		this.location = location;
 		this.mastercardLocationId = locationId;
+		this.description = description;
 	}
 
 

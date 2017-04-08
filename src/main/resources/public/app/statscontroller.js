@@ -21,4 +21,10 @@ angular.module('stats', ["chart.js"])
 	  	}, function(fail) {
 	  		console.log("fuck");
 	  	});
+ 	  $http.get("/query/expenses/1", {})
+	  	.then(function(success) {
+	  		$scope.expenses = success.data;
+	  	}, function(fail) {
+	  		console.log("Oops");
+	  	});
 });
