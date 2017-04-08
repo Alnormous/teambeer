@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by artyom.fedenka on 4/8/17.
@@ -18,6 +20,11 @@ import java.util.List;
  */
 @Service
 public class MatcherEngine {
+
+	List<String> ACCEPTED_CODES = new ArrayList<String>() {{
+		add("5812");
+		add("5813");
+	}};
 
 	@Autowired
 	BeerPriceApi beerPriceApi;
@@ -32,10 +39,14 @@ public class MatcherEngine {
 		Comparator<TransactionsOut> byTransactionDate = (e1, e2) ->
 				e1.getTransactiontime().compareTo(e2.getTransactiontime());
 
-//		transactionsList.stream().sorted(byTransactionDate).filter((t) -> {
-//			t.getMerchantcode() ==
-//		}).findFirst();
-		return null;
+		Optional<TransactionsOut> transactionsOutOptional = transactionsList.stream().sorted(byTransactionDate).filter((t) -> {
+			return ACCEPTED_CODES.contains(t.getMerchantcode());
+		}).findFirst();
+
+		TransactionsOut transactionsOut = transactionsOutOptional.get();
+		Expense expense = new Expense(price, transactionsOut.getTransactionamount(), transactionsOut.getTransactiontime());
+
+		return expense;
 
 	}
 

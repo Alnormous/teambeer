@@ -8,7 +8,7 @@ public class TransactionsOut {
 
     public String merchantname;
     public String merchantcode;
-    public int transactionamount;
+    public double transactionamount;
     public LocalDateTime transactiontime;
 
     public TransactionsOut() {
@@ -38,11 +38,11 @@ public class TransactionsOut {
         this.transactiontime = Transactiontime;
     }
     
-    public int getTransactionamount() {
+    public double getTransactionamount() {
         return transactionamount;
     }
 
-    public void setTransactionamount(int Transactionamount) {
+    public void setTransactionamount(double Transactionamount) {
         this.transactionamount = Transactionamount;
     }    
     
