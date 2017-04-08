@@ -1,28 +1,22 @@
 package com.teambeer.ruleengine;
 
-import com.teambeer.beerApi.BeerPriceApi;
-import com.teambeer.starlingApi.StarlingService;
-import com.teambeer.starlingApi.TransactionsOut;
-import com.teambeer.starlingApi.objects.MerchantLocation;
-import com.teambeer.starlingApi.objects.StarlingTransaction;
-import com.teambeer.untappd.Untappd;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Created by artyom.fedenka on 4/8/17.
- * ONWARDS!!!!
- */
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.teambeer.beerApi.BeerPriceApi;
+import com.teambeer.starlingApi.StarlingService;
+import com.teambeer.starlingApi.objects.MerchantLocation;
+import com.teambeer.starlingApi.objects.StarlingTransaction;
+
 @Service
 public class MatcherEngine {
 
+	@SuppressWarnings("serial")
 	List<Integer> ACCEPTED_CODES = new ArrayList<Integer>() {{
 		add(5812);
 		add(5813);
@@ -50,7 +44,7 @@ public class MatcherEngine {
 		}).findFirst();
 
 		StarlingTransaction transactionsOut = transactionsOutOptional.get();
-		return new Expense(price, Math.abs(transactionsOut.amount), transactionsOut.created);
+		return new Expense(price, Math.abs(transactionsOut.amount), transactionsOut.created, beerName, transactionsOut.merchantLocation.locationName);
 	}
 
 }

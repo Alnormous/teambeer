@@ -25,15 +25,15 @@ public class BeerStatsController {
 	
 	@PostConstruct
 	public void fillRepo() {
-		expenseRepo.storeExpense(new Expense(1.00, 10.00, LocalDateTime.now()));
-		expenseRepo.storeExpense(new Expense(5.00, 11.20, LocalDateTime.now()));
-		expenseRepo.storeExpense(new Expense(3.00, 22.00, LocalDateTime.now()));
-		expenseRepo.storeExpense(new Expense(2.00, 10.00, LocalDateTime.now().minusDays(1)));
-		expenseRepo.storeExpense(new Expense(5.00, 22.00, LocalDateTime.now().minusDays(1)));
-		expenseRepo.storeExpense(new Expense(0.00, 10.00, LocalDateTime.now().minusDays(1)));
-		expenseRepo.storeExpense(new Expense(7.00, 10.00, LocalDateTime.now().minusDays(3)));
-		expenseRepo.storeExpense(new Expense(10.00, 10.00, LocalDateTime.now().minusDays(3)));
-		expenseRepo.storeExpense(new Expense(0.00, 20.00, LocalDateTime.now().minusDays(3)));
+		expenseRepo.storeExpense(new Expense(1.00, 10.00, LocalDateTime.now(), "", ""));
+		expenseRepo.storeExpense(new Expense(5.00, 11.20, LocalDateTime.now(), "", ""));
+		expenseRepo.storeExpense(new Expense(3.00, 22.00, LocalDateTime.now(), "", ""));
+		expenseRepo.storeExpense(new Expense(2.00, 10.00, LocalDateTime.now().minusDays(1), "", ""));
+		expenseRepo.storeExpense(new Expense(5.00, 22.00, LocalDateTime.now().minusDays(1), "", ""));
+		expenseRepo.storeExpense(new Expense(0.00, 10.00, LocalDateTime.now().minusDays(1), "", ""));
+		expenseRepo.storeExpense(new Expense(7.00, 10.00, LocalDateTime.now().minusDays(3), "", ""));
+		expenseRepo.storeExpense(new Expense(10.00, 10.00, LocalDateTime.now().minusDays(3), "", ""));
+		expenseRepo.storeExpense(new Expense(0.00, 20.00, LocalDateTime.now().minusDays(3), "", ""));
 	}
 	
 	@RequestMapping("/query/beerstats/{id}")
