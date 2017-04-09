@@ -61,7 +61,7 @@ public class StarlingService {
 		PaymentPostObject paymentPostObject = new PaymentPostObject();
 		paymentPostObject.destinationAccountUid = stralingAccount.id;
 		paymentPostObject.payment = paymentPostInfoObject;
-		paymentPostObject.reference = "Shame payment!";
+		paymentPostObject.reference = "Shame on me!";
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Authorization", USER_TOKEN_HEADER);
