@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -82,7 +83,7 @@ public class MatcherEngine {
 		List<StarlingTransaction> transactions = transactionsList.stream().sorted(byTransactionDate)
 				.filter((t) -> {
 					return ACCEPTED_CODES.contains(t.merchantLocation.mastercardMerchantCategoryCode) && Math.abs(t.amount) > tescoPrice;
-				}).filter(t -> (t.created.plusHours(50).isAfter(when) && t.created.minusHours(50).isBefore(when)))
+				}).filter(t -> (t.created.plusHours(12).isAfter(when) && t.created.minusHours(12).isBefore(when)))
 				.collect(Collectors.toList());
 		logger.info("Possible number of transactions: " + transactions.size());
 		if (location != null) {
@@ -90,8 +91,8 @@ public class MatcherEngine {
 			transactions.sort(new Comparator<StarlingTransaction>() {
 				@Override
 				public int compare(StarlingTransaction o1, StarlingTransaction o2) {
-					return ((Integer)StringUtils.getLevenshteinDistance(o2.merchantLocation.locationName, location))
-							.compareTo(StringUtils.getLevenshteinDistance(o1.merchantLocation.locationName, location));
+					return ((Integer)StringUtils.getLevenshteinDistance(o1.merchantLocation.locationName, location))
+							.compareTo(StringUtils.getLevenshteinDistance(o2.merchantLocation.locationName, location));
 				}
 			});
 			logger.info("sorting done");
@@ -114,9 +115,9 @@ public class MatcherEngine {
 			Iterator<StarlingTransaction> iterator = transactions.iterator();
 			while (iterator.hasNext()) {
 				StarlingTransaction t = iterator.next();
-				Double totalBeer = expenseRepo.getAll().stream().filter(x -> x.transactionId.equals(t.id))
+				Double totalBeer = expenseRepo.getAll().stream().filter(x -> x.transactionId != null && x.transactionId.equals(t.id))
 						.collect(Collectors.summingDouble(x -> x.spentOnBeer));
-				Double totalBill = expenseRepo.getAll().stream().filter(x -> x.transactionId.equals(t.id)).findAny().orElse(new Expense(0, 0, null, null, null, null)).totalBill;
+				Double totalBill = expenseRepo.getAll().stream().filter(x -> x.transactionId != null && x.transactionId.equals(t.id)).findAny().orElse(new Expense(0, 0, null, null, null, null)).totalBill;
 				if (totalBill == 0) {
 					totalBill = -(t.amount);
 				}
@@ -129,7 +130,7 @@ public class MatcherEngine {
 					}
 					logger.info("Setting expense, with price " + price);
 					Expense e = new Expense(price, Math.abs(t.amount), 
-							t.created, beerName, 
+							when, beerName, 
 							t.merchantLocation.locationName,
 							t.merchantLocationId,
 							t.id);
@@ -145,10 +146,10 @@ public class MatcherEngine {
 			
 		logger.info("We're sending a zero expense");
 		Expense e = new Expense(0.00, 0.00, 
-				null, beerName, 
+				when, beerName, 
 				null,
 				null,
-				null);
+				UUID.randomUUID().toString());
 		expenseRepo.storeExpense(e);
 		triggerAddingNonBeerTransactions(transactionsList);
 		return e;
