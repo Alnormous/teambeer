@@ -81,10 +81,11 @@ public class MatcherEngine {
 		List<StarlingTransaction> transactions = transactionsList.stream().sorted(byTransactionDate)
 				.filter((t) -> {
 					return ACCEPTED_CODES.contains(t.merchantLocation.mastercardMerchantCategoryCode) && Math.abs(t.amount) > tescoPrice;
-				}).filter(t -> (t.created.plusHours(5).isAfter(when) && t.created.minusHours(5).isBefore(when)))
+				}).filter(t -> (t.created.plusHours(50).isAfter(when) && t.created.minusHours(50).isBefore(when)))
 				.collect(Collectors.toList());
 		logger.info("Possible number of transactions: " + transactions.size());
 		if (location != null) {
+			logger.info("Location name comparisons");
 			transactions.sort(new Comparator<StarlingTransaction>() {
 				@Override
 				public int compare(StarlingTransaction o1, StarlingTransaction o2) {
@@ -92,8 +93,9 @@ public class MatcherEngine {
 							.compareTo(StringUtils.getLevenshteinDistance(o1.merchantLocation.locationName, location));
 				}
 			});
+			logger.info("sorting done");
 		} else {
-			logger.debug("Timing stuff");
+			logger.info("Timing stuff");
 			Long epochSecond = when.toInstant(ZoneOffset.UTC).getEpochSecond();
 			transactions.sort(new Comparator<StarlingTransaction>() {
 				@Override
@@ -104,9 +106,9 @@ public class MatcherEngine {
 				}
 			});
 		}
-		
+		logger.info("Possible number of transactions 2: " + transactions.size());
 		if (transactions.size() > 0) {
-			logger.debug("Beer " + beerName + " has possible transactions " + transactions.get(0).id);
+			logger.info("Beer " + beerName + " has possible transactions " + transactions.get(0).id);
 	
 			Iterator<StarlingTransaction> iterator = transactions.iterator();
 			while (iterator.hasNext()) {
@@ -114,26 +116,32 @@ public class MatcherEngine {
 				Double totalBeer = expenseRepo.getAll().stream().filter(x -> x.transactionId.equals(t.id))
 						.collect(Collectors.summingDouble(x -> x.spentOnBeer));
 				Double totalBill = expenseRepo.getAll().stream().filter(x -> x.transactionId.equals(t.id)).findAny().orElse(new Expense(0, 0, null, null, null, null)).totalBill;
+				if (totalBill == 0) {
+					totalBill = -(t.amount);
+				}
 				Double remainder = totalBill - totalBeer;
+				logger.info("Total bill: " + totalBill + " total beer: " + totalBeer + " and remained is " + remainder);
 				if (remainder > 0) {
 					if (Math.abs(remainder - price) < (price * 0.2)) {
+						System.out.println(price + " " + remainder);
 						price = remainder;
 					}
+					logger.info("Setting expense, with price " + price);
 					Expense e = new Expense(price, Math.abs(t.amount), 
 							t.created, beerName, 
 							t.merchantLocation.locationName,
 							t.merchantLocationId,
 							t.id);
 					expenseRepo.storeExpense(e);
-					logger.debug("We fucking used this expense like a mother fucker");
+					logger.info("We fucking used this expense like a mother fucker");
 					return e;
 				} else {
-					logger.debug("We fucked this one right off");
+					logger.info("We fucked this one right off");
 				}
 			}
 		}
 			
-		logger.debug("We're sending a zero expense");
+		logger.info("We're sending a zero expense");
 		Expense e = new Expense(0.00, 0.00, 
 				null, beerName, 
 				null,
