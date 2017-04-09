@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.teambeer.beerApi.BeerPriceApi;
+import com.teambeer.query.repository.CostsRepository;
 import com.teambeer.query.repository.ExpensesRepository;
 import com.teambeer.starlingApi.StarlingService;
 import com.teambeer.starlingApi.objects.MerchantLocation;
@@ -40,6 +41,9 @@ public class MatcherEngine {
 	
 	@Autowired
 	ExpensesRepository expenseRepo;
+	
+	@Autowired
+	CostsRepository costRepo;
 	
 	private Logger logger = org.slf4j.LoggerFactory.getLogger(MatcherEngine.class);
 
@@ -127,6 +131,13 @@ public class MatcherEngine {
 					if (Math.abs(remainder - price) < (price * 0.2)) {
 						System.out.println(price + " " + remainder);
 						price = remainder;
+					}
+					List<Cost> costs = costRepo.getByLocalId(t.merchantLocationId);
+					if (costs != null && costs.size() > 0) {
+						Optional<Cost> cost = costs.stream().filter(c -> c.beerName.equals(beerName)).findAny();
+						if (cost.isPresent()) {
+							price = cost.get().cost;
+						}
 					}
 					logger.info("Setting expense, with price " + price);
 					Expense e = new Expense(price, Math.abs(t.amount), 

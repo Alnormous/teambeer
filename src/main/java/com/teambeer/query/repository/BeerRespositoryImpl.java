@@ -1,9 +1,11 @@
 package com.teambeer.query.repository;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,6 +26,10 @@ public class BeerRespositoryImpl implements BeerRepository {
 			.map(exp -> new BeerStats(exp))
 			.reduce(BeerStats.emptyStats(userId), (bs1, bs2) -> bs1.merge(bs2));
 		bs.setDay(day);
+		Double totalExpenses = expensesRepository.getAll().stream()
+			.filter(exp -> exp.timeOfTransaction != null && exp.timeOfTransaction.truncatedTo(ChronoUnit.DAYS).toLocalDate().isEqual(day))
+			.collect(Collectors.summingDouble(e -> e.totalBill));
+		bs.setTotalMoney(new BigDecimal(totalExpenses));
 		return bs;
 	}
 	
