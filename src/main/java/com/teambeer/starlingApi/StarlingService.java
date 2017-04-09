@@ -3,7 +3,11 @@ package com.teambeer.starlingApi;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teambeer.beerApi.apiObjects.TescoApiResponseObject;
+import com.teambeer.query.PaymentResource;
+import com.teambeer.query.repository.ExpensesRepository;
+import com.teambeer.ruleengine.Expense;
 import com.teambeer.starlingApi.objects.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -29,7 +33,21 @@ public class StarlingService {
 	String MAKE_PAYMENT_API = "https://api-sandbox.starlingbank.com/api/v1/payments/local";
 	String CONTACT_API = "https://api-sandbox.starlingbank.com/api/v1/contacts";
 	String CONTACT_ACCOUNT_API = "https://api-sandbox.starlingbank.com/api/v1/contacts/%s/accounts";
-	String USER_TOKEN_HEADER = "Bearer L5iNcZdJ7tGzRBPqFjxnjAt4PP8eUnlDqMklDvW4o19jjy3N40dZyEbFRxafoWwe";
+	String USER_TOKEN_HEADER = "Bearer tDZXn7EG4RpikocmU6tlm8FdhNXfn7VcgiVo4N8X4hnlC4AUGzy3ofjwuCfFiJTS";
+
+	@Autowired
+	ExpensesRepository expensesRepository;
+
+	public void payKarma(String contactId, double amount, String expenseId) {
+		this.makeLocalPayment(contactId, amount);
+		this.markBillKarmaFree(expenseId);
+	}
+
+	private void markBillKarmaFree(String expenseId) {
+		Expense expense = this.expensesRepository.getByIdExpense(expenseId);
+		expense.paid = true;
+		this.expensesRepository.updateExpense(expense);
+	}
 
 	public void makeLocalPayment(String contactId, double amount) {
 		StarlingAccount stralingAccount = getContactsAccount(contactId);
@@ -87,9 +105,7 @@ public class StarlingService {
 	}
 
 	public List<StarlingContact> listDonatableContacts() {
-		List<StarlingContact> allContacts = this.listContacts();
-//		allContacts
-		return allContacts;
+		return this.listContacts();
 	}
 
 	public List<StarlingContact> listContacts() {
