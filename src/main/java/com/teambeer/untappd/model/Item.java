@@ -16,9 +16,9 @@ public class Item {
 	
 	private Brewery brewery;
 
-	/* NOTE: Removed for now as this is not working. */
-	//public Venue venue;
-
+	@JsonProperty(value = "venue", required = false)
+	private Venue venue;
+	
 	public Long getCheckinId() {
 		return checkinId;
 	}
@@ -51,11 +51,11 @@ public class Item {
 		this.brewery = brewery;
 	}
 
-	/*public Venue getVenue() {
+	public Venue getVenue() {
 		return venue;
 	}
 
 	public void setVenue(Venue venue) {
 		this.venue = venue;
-	}*/
+	}
 }

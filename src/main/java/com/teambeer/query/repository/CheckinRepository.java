@@ -27,7 +27,7 @@ public class CheckinRepository {
 	}
 
 	public boolean storeCheckin(Item checkin) {
-		if (checkins.containsKey(checkin.getCheckinId())) {
+		if (!checkins.containsKey(checkin.getCheckinId())) {
 			storeCheckin(checkin);
 			return true;
 		}
