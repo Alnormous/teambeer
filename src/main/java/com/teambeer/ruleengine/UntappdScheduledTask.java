@@ -41,9 +41,8 @@ public class UntappdScheduledTask {
 	public void getUntappdCheckins() throws UserNotFoundException {
 		log.info("Getting checkins from Untappd for user {}", user);
 		untappd.getCheckinsByUser(user).forEach(item -> {
-			log.info(item.getCheckinId() + " : " + item.getCreatedAt() + " : " + item.getBeer().getBeerName());
 			if (checkinRepo.storeCheckin(item)) {
-				log.info("we did actually store this");
+				log.info("### STORING & ANALYSING: " + item.getCheckinId() + " : " + item.getCreatedAt() + " : " + item.getBeer().getBeerName());
 				final LocalDateTime dateTime = LocalDateTime.parse(item.getCreatedAt(), DateTimeFormatter.RFC_1123_DATE_TIME);
 				final String venueName = item.getVenue() != null ? item.getVenue().getVenueName() : null;
 				matcherEngine.analyzeBeer(item.getBeer().getBeerName(), dateTime, venueName);
