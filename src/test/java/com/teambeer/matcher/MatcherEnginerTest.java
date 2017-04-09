@@ -25,10 +25,13 @@ public class MatcherEnginerTest {
 	@Test
 	public void testMatcher() {
 		Expense e = engine.analyzeBeer("Punk IPA", LocalDateTime.now(), "Old Fountain");
+		engine.analyzeBeer("Something Else", LocalDateTime.now(), "Old Fountain");
+		engine.analyzeBeer("1000 IPA", LocalDateTime.now(), "Old Fountain");
+		engine.analyzeBeer("Punk IPA", LocalDateTime.now(), "Old Fountain");
 		System.out.println(e);
 		System.out.println(e.spentOnBeer);
 		for (Expense ex: expenseRepo.getAll()) {
-			System.out.println(ex.transactionId + " - " + ex.totalBill);
+			System.out.println(ex.transactionId + " - " + ex.spentOnBeer + " / " + ex.totalBill);
 		}
 		
 	}
