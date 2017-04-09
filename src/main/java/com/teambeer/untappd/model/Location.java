@@ -1,11 +1,15 @@
 package com.teambeer.untappd.model;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Location {
+public class Location implements Serializable {
 	
+	private static final long serialVersionUID = 2673190868012237726L;
+
 	@JsonProperty("venue_address")
 	private String venueAddress;
 	
