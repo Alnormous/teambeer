@@ -40,6 +40,7 @@ angular.module('stats', ["chart.js"])
 	  			e.time = new Date(e.timeOfTransaction[0], e.timeOfTransaction[1], e.timeOfTransaction[2], e.timeOfTransaction[3], e.timeOfTransaction[4]);
 	  		});
 	  		$scope.expenses = _.sortBy($scope.expenses, 'time'); 
+	  		$scope.expenses = _.filter($scope.expenses, function(expense) {return expense.description != 'No beer';});
 	  	}, function(fail) {
 	  		console.log("Oops");
 	  	});

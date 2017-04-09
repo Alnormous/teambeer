@@ -3,6 +3,7 @@ package com.teambeer.ruleengine;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -134,6 +135,7 @@ public class MatcherEngine {
 							t.id);
 					expenseRepo.storeExpense(e);
 					logger.info("We fucking used this expense like a mother fucker");
+					triggerAddingNonBeerTransactions(transactionsList);
 					return e;
 				} else {
 					logger.info("We fucked this one right off");
@@ -148,7 +150,23 @@ public class MatcherEngine {
 				null,
 				null);
 		expenseRepo.storeExpense(e);
+		triggerAddingNonBeerTransactions(transactionsList);
 		return e;
+	}
+
+	
+	
+	public void triggerAddingNonBeerTransactions(List<StarlingTransaction> transactionsList) {
+		for (StarlingTransaction transaction: transactionsList) {
+			if (expenseRepo.getAllWithTransactionId(transaction.id).isEmpty()) {
+				Expense e = new Expense(0.00, -transaction.amount, 
+						transaction.created, "No beer", 
+						null,
+						null,
+						transaction.id);
+				expenseRepo.storeExpense(e);
+			}
+		}
 	}
 
 }
