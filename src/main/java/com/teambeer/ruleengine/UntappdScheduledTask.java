@@ -41,7 +41,8 @@ public class UntappdScheduledTask {
 			if (checkinRepo.storeCheckin(item)) {
 				log.info("we did actually store this");
 				final LocalDateTime dateTime = LocalDateTime.parse(item.getCreatedAt(), DateTimeFormatter.RFC_1123_DATE_TIME);
-				matcherEngine.analyzeBeer(item.getBeer().getBeerName(), dateTime, null);
+				final String venueName = item.getVenue() != null ? item.getVenue().getVenueName() : null;
+				matcherEngine.analyzeBeer(item.getBeer().getBeerName(), dateTime, venueName);
 			}
 		});
 	}
