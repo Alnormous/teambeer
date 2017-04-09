@@ -25,7 +25,7 @@ public class PaymentsController {
 
 	@RequestMapping(value = "/pay", method = RequestMethod.POST)
 	public void makePayment(@RequestBody PaymentResource paymentResource) {
-		starlingService.makeLocalPayment(paymentResource.contactId, paymentResource.amount);
+		starlingService.payKarma(paymentResource.contactId, paymentResource.amount, paymentResource.expenseId);
 	}
 
 }

@@ -7,4 +7,5 @@ package com.teambeer.query;
 public class PaymentResource {
 	public String contactId;
 	public double amount;
+	public String expenseId;
 }

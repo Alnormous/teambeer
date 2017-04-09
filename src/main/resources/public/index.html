@@ -3,6 +3,7 @@
 <head>
 <title>Hello AngularJS</title>
 <link href="bower_components/bootstrap-css-only/css/bootstrap.css" rel="stylesheet">
+	<link href="bower_components/font-awesome/css/font-awesome.css" rel="stylesheet">
 <style type="text/css">
 [ng\:cloak], [ng-cloak], .ng-cloak {
   display: none !important;
@@ -66,7 +67,13 @@
 	                  <td>{{expense.location}}</td>
 	                  <td>{{expense.time}}</td>
 	                  <td><button ng-click="updateAmount($index)">Update</button></td>
-						<td><button ng-if="isPayButtonShown" ng-click="pay($index)">Feel Good</button></td>
+						<td>
+							<div ng-show="isPayButtonShown">
+								<button ng-hide="expense.paid" ng-click="pay($index)">Feel Good</button>
+								<i ng-show="expense.paid" class="fa fa-smile-o"></i>
+							</div>
+						</td>
+
 	                </tr>
 	              </tbody>
 	            </table>
