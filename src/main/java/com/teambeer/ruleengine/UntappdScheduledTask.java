@@ -15,6 +15,8 @@ import com.teambeer.query.repository.CheckinRepository;
 import com.teambeer.untappd.UntappdController;
 import com.teambeer.untappd.UserNotFoundException;
 
+import javax.annotation.PostConstruct;
+
 @Component
 @EnableScheduling
 public class UntappdScheduledTask {
@@ -33,7 +35,9 @@ public class UntappdScheduledTask {
 
 	private Logger log = LoggerFactory.getLogger(UntappdScheduledTask.class);
 
+	
 	//@Scheduled(cron = "*/45 * * * * *")
+	@PostConstruct
 	public void getUntappdCheckins() throws UserNotFoundException {
 		log.info("Getting checkins from Untappd for user {}", user);
 		untappd.getCheckinsByUser(user).forEach(item -> {
