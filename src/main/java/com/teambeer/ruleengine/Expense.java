@@ -24,6 +24,7 @@ public class Expense implements Serializable {
 		this.location = location;
 		this.mastercardLocationId = locationId;
 		this.description = description;
+		this.paid = false;
 	}
 	
 	public Expense(double spentOnBeer, double totalBill, LocalDateTime timeOfTransaction, String description, String location, String locationId, String transactionId) {

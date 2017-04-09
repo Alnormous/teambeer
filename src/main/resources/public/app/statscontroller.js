@@ -64,8 +64,9 @@ angular.module('stats', ["chart.js"])
             amount: e.spentOnBeer,
             expenseId: e.id
 
-		})
-
+		}).then(function (success) {
+			e.paid = true;
+		});
 	  };
 
  	  $scope.updateAmount = function(index) {
