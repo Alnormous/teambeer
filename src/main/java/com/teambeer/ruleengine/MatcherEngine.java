@@ -77,11 +77,13 @@ public class MatcherEngine {
 		Comparator<StarlingTransaction> byTransactionDate = (e1, e2) ->
 				e1.created.compareTo(e2.created);
 
+		logger.info("Before filtering, transactions list is " + transactionsList.size());
 		List<StarlingTransaction> transactions = transactionsList.stream().sorted(byTransactionDate)
 				.filter((t) -> {
 					return ACCEPTED_CODES.contains(t.merchantLocation.mastercardMerchantCategoryCode) && Math.abs(t.amount) > tescoPrice;
 				}).filter(t -> (t.created.plusHours(5).isAfter(when) && t.created.minusHours(5).isBefore(when)))
 				.collect(Collectors.toList());
+		logger.info("Possible number of transactions: " + transactions.size());
 		if (location != null) {
 			transactions.sort(new Comparator<StarlingTransaction>() {
 				@Override
@@ -131,6 +133,7 @@ public class MatcherEngine {
 			}
 		}
 			
+		logger.debug("We're sending a zero expense");
 		Expense e = new Expense(0.00, 0.00, 
 				null, beerName, 
 				null,

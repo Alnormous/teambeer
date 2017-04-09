@@ -20,7 +20,7 @@ public class BeerRespositoryImpl implements BeerRepository {
 	@Override
 	public BeerStats getBeerStats(int userId, LocalDate day) {
 		BeerStats bs = expensesRepository.getAll().stream()
-			.filter(exp -> exp.timeOfTransaction.truncatedTo(ChronoUnit.DAYS).toLocalDate().isEqual(day))
+			.filter(exp -> exp.timeOfTransaction != null && exp.timeOfTransaction.truncatedTo(ChronoUnit.DAYS).toLocalDate().isEqual(day))
 			.map(exp -> new BeerStats(exp))
 			.reduce(BeerStats.emptyStats(userId), (bs1, bs2) -> bs1.merge(bs2));
 		bs.setDay(day);
