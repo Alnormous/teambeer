@@ -1,5 +1,6 @@
 package com.teambeer.query.repository;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -51,8 +52,14 @@ public class ExpensesRepository {
 	}
 	
 	public Collection<Expense> getAllWithTransactionId(final String transactionId) {
+		if (transactionId == null) {
+			return new ArrayList<>();
+		}
 		Collection<Expense> all = getAll();
-		return all.stream().filter(e -> e.transactionId.equals(transactionId)).collect(Collectors.toList());
+		if (all == null) {
+			return new ArrayList<>();
+		}
+		return all.stream().filter(e -> e.transactionId != null && e.transactionId.equals(transactionId)).collect(Collectors.toList());
 	}
 
 
