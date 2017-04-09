@@ -1,5 +1,6 @@
 package com.teambeer.untappd;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,6 @@ public class UntappdControllerTest {
 	
 	@Test
 	public void testUntappdApi() throws UserNotFoundException {
-		untappd.getCheckinsByUser("ipal").stream().map(i -> i.getBeer().getBeerName()).forEach(System.out::println);
+		Assert.assertEquals(25, untappd.getCheckinsByUser("ipal").size());
 	}
 }

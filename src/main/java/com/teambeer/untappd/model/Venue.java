@@ -7,15 +7,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Venue {
 
 	@JsonProperty("venue_id")
-	public Long venueId;
+	private Long venueId;
 
 	@JsonProperty("venue_name")
-	public String venueName;
+	private String venueName;
 
-	public Location location;
+	private Location location;
 
 	@JsonProperty("primary_category")
-	public String primaryCategory;
+	private String primaryCategory;
 
 	public Long getVenueId() {
 		return venueId;

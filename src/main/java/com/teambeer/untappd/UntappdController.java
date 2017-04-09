@@ -5,14 +5,20 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teambeer.untappd.model.Item;
 import com.teambeer.untappd.model.UntappdResponseObject;
 
@@ -27,6 +33,9 @@ public class UntappdController implements Untappd {
 
 	@Value("${untapped.api.checkins.url}")
 	private String untappdApiCheckinsUrl;
+	
+	@Autowired
+	private RestOperations restTemplate;
 
 	private String constructUrl(String user) throws UnsupportedEncodingException {
 		return String.format("%s/%s?client_id=%s&client_secret=%s", untappdApiCheckinsUrl,
@@ -49,12 +58,32 @@ public class UntappdController implements Untappd {
 
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<String> entity = new HttpEntity<>(headers);
-		RestTemplate restTemplate = new RestTemplate();
 
 		ResponseEntity<UntappdResponseObject> response = restTemplate.exchange(url, HttpMethod.GET, entity,
 				UntappdResponseObject.class);
 		UntappdResponseObject untappdResponse = response.getBody();
 
 		return untappdResponse.getResponse().getCheckins().getItems();
+	}
+	
+	@Bean
+	public RestOperations restOperations() {
+		RestTemplate rest = new RestTemplate();
+		rest.getMessageConverters().add(0, mappingJackson2HttpMessageConverter());
+		return rest;
+	}
+	
+	@Bean
+	public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
+		MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+		converter.setObjectMapper(emptyArrayAsNullObjectMapper());
+		return converter;
+	}
+	
+	@Bean
+	public ObjectMapper emptyArrayAsNullObjectMapper() {
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true);
+		return objectMapper;
 	}
 }
