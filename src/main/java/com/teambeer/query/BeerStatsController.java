@@ -71,14 +71,15 @@ public class BeerStatsController {
 	@RequestMapping(value="/query/expense/{id}/cost/{cost}", method=RequestMethod.POST)
 	public void setExpense(@PathVariable("id") String id, @PathVariable("cost") double cost) {
 		Expense e = expenseRepo.getByIdExpense(id);
+		Cost c = new Cost();
 		if (e != null) {
 			e.spentOnBeer = cost;
 			expenseRepo.updateExpense(e);
+			c.beerName = e.description;
+			c.mastercardLocatinId = e.mastercardLocationId;
+			c.cost = cost;
+			costsRepo.storeCost(c);
 		}
-		Cost c = new Cost();
-		c.beerName = e.description;
-		c.mastercardLocatinId = e.mastercardLocationId;
-		costsRepo.storeCost(c);
 	}
 
 }

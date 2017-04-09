@@ -3,6 +3,17 @@ angular.module('stats', ["chart.js"])
 	  
 	  $scope.userId = 1;
 	  $scope.totals = {};
+	  $scope.isPayButtonShown = false;
+	  $http.get("/contacts/donatable", {})
+		  .then(function (success) {
+		  	if(success.data && success.data.length > 0) {
+                $scope.isPayButtonShown = true;
+			}
+		  	$scope.contacts = success.data;
+		  	console.log($scope.contacts);
+		  }, function (fail) {
+		  	console.log("WHAT IS LOVE?");
+		  });
 	  $http.get("/query/beerstats/total/1", {})
 	  	.then(function(success) {
 	  		$scope.totals = success.data;
@@ -33,7 +44,20 @@ angular.module('stats', ["chart.js"])
 	  		console.log("Oops");
 	  	});
  	  
- 	  
+
+ 	  $scope.pay = function(index) {
+ 	  	console.log(index);
+ 	  	var e = $scope.expenses[index];
+ 	  	console.log(e);
+ 	  	$http.post("/pay", {
+            contactId: $scope.contacts[0].id,
+            amount: e.spentOnBeer,
+            expenseId: e.id
+
+		})
+
+	  };
+
  	  $scope.updateAmount = function(index) {
  		  console.log(index);
  		  var e = $scope.expenses[index];

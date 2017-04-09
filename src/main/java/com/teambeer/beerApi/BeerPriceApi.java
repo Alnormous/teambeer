@@ -29,7 +29,7 @@ public class BeerPriceApi {
 			return b.UnitQuantity.equals("LITRE");
 		}).map((b) -> {
 			return b.price;
-		}).mapToDouble(p -> p).average().getAsDouble();
+		}).mapToDouble(p -> p).average().orElse(5.00);
 	}
 
 	private List<TescoBeer> queryBeers(String query) {
