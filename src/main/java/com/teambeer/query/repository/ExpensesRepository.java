@@ -1,6 +1,7 @@
 package com.teambeer.query.repository;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -9,6 +10,9 @@ import org.springframework.stereotype.Service;
 
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IMap;
+import com.hazelcast.query.EntryObject;
+import com.hazelcast.query.Predicate;
+import com.hazelcast.query.PredicateBuilder;
 import com.teambeer.ruleengine.Expense;
 
 @Service
@@ -44,6 +48,11 @@ public class ExpensesRepository {
 	
 	public void updateExpense(Expense expense) {
 		expenses.replace(expense.id, expense);
+	}
+	
+	public Collection<Expense> getAllWithTransactionId(final String transactionId) {
+		Collection<Expense> all = getAll();
+		return all.stream().filter(e -> e.transactionId.equals(transactionId)).collect(Collectors.toList());
 	}
 
 

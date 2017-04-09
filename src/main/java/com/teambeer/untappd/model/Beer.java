@@ -1,11 +1,15 @@
 package com.teambeer.untappd.model;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Beer {
+public class Beer implements Serializable {
 	
+	private static final long serialVersionUID = -8110767293561535787L;
+
 	private Long bid;
 	
 	@JsonProperty("beer_name")
